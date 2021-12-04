@@ -1,18 +1,17 @@
 class Solution {
     fun subarraySum(nums: IntArray, k: Int): Int {
-      var cumulativeSum = 0
-      var result = 0
-      val hashMap = HashMap<Int, Int>().apply { put(0, 1) }
+      var counter = 0
       
-      nums.forEach {
-        cumulativeSum += it
-        
-        if (hashMap.containsKey(cumulativeSum - k))
-          result += hashMap.getOrDefault(cumulativeSum - k, 0)
-        
-        hashMap.put(cumulativeSum, hashMap.getOrDefault(cumulativeSum, 0) + 1)
+      var sum = 0
+      val map = HashMap<Int, Int>().apply { put(0, 1) }
+                         
+      for (num in nums) {
+        sum += num 
+        counter += map.getOrElse(sum-k) { 0 }
+        map.put(sum, map.getOrElse(sum) { 0 } + 1)
       }
       
-      return result     
+      return counter
     }
 }
+
