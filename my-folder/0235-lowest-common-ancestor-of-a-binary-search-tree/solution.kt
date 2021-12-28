@@ -8,15 +8,14 @@
 
 class Solution {
     fun lowestCommonAncestor(root: TreeNode?, p: TreeNode?, q: TreeNode?): TreeNode? {
-      if (root == null) return null
-      if (root!!.`val` == p!!.`val` || root!!.`val` == q!!.`val`) return root
+      if (root == null || p == null || q == null) return root
       
-      val leftResult = lowestCommonAncestor(root.left, p, q)
-      val rightResult = lowestCommonAncestor(root.right, p, q)
-      
-      if (leftResult == null) return rightResult
-      if (rightResult == null) return leftResult
-      
-      return root
+      if (p.`val` < root.`val` && q.`val` < root.`val`) {
+        return lowestCommonAncestor(root.left, p, q)
+      } else if (p.`val` > root.`val` && q.`val` > root.`val`) {
+        return lowestCommonAncestor(root.right, p, q)
+      } else {
+        return root
+      }
     }
 }
