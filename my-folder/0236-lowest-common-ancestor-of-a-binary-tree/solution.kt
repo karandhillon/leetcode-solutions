@@ -1,22 +1,24 @@
-/**
- * Definition for a binary tree node.
- * class TreeNode(var `val`: Int = 0) {
- *     var left: TreeNode? = null
- *     var right: TreeNode? = null
- * }
- */
-
 class Solution {
-    fun lowestCommonAncestor(root: TreeNode?, p: TreeNode?, q: TreeNode?): TreeNode? {
-      if (root == null) return null
-      if (root!!.`val` == p!!.`val` || root!!.`val` == q!!.`val`) return root
-
-      val left = lowestCommonAncestor(root.left, p, q)
-      val right = lowestCommonAncestor(root.right, p, q)
-      
-      if (left == null) return right
-      if (right == null) return left
-      
-      return root
+  var lca: TreeNode? = null
+  
+  fun lowestCommonAncestor(root: TreeNode?, p: TreeNode?, q: TreeNode?): TreeNode? {
+    recurseTree(root, p, q)
+    
+    return lca
+  }
+  
+  fun recurseTree(root: TreeNode?, p: TreeNode?, q: TreeNode?): Boolean {
+    if (root == null) return false
+    
+    val left = if (recurseTree(root.left, p, q)) 1 else 0
+    val right = if (recurseTree(root.right, p, q)) 1 else 0
+    
+    val mid = if (root.`val` == p!!.`val` || root.`val` == q!!.`val`) 1 else 0
+    
+    if (left + right + mid == 2) {
+      lca = root
     }
+    
+    return left + right + mid > 0
+  }
 }
