@@ -9,24 +9,22 @@
  * }
  */
 class Solution {
-    var diameter = 0
-
-    fun diameterOfBinaryTree(root: TreeNode?): Int {
-        if (root == null) return 0
-        
-        longestPath(root)
-        
-        return diameter
-    }
+  var diameter = 0
+  
+  fun diameterOfBinaryTree(root: TreeNode?): Int {
+    findLongestPath(root)
     
-    fun longestPath(root: TreeNode?): Int {
-        if (root == null) return 0
-        
-        val leftPath = longestPath(root.left)
-        val rightPath = longestPath(root.right)
-        
-        diameter = Math.max(diameter, leftPath + rightPath)
-        
-        return Math.max(leftPath, rightPath) + 1
-    }
+    return diameter
+  }
+  
+  fun findLongestPath(root: TreeNode?): Int {
+    if (root == null) return 0
+  
+    val left = findLongestPath(root.left)
+    val right = findLongestPath(root.right)
+  
+    diameter = Math.max(diameter, left + right)
+  
+    return Math.max(left, right) + 1
+  }
 }
