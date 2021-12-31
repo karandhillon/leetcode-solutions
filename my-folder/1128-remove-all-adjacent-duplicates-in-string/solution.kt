@@ -2,17 +2,17 @@ class Solution {
   fun removeDuplicates(s: String): String {
     val stack = Stack<Char>()
     
-    s.toCharArray().forEach { char ->
-      if (stack.lastOrNull() == char) stack.pop()
-      else stack.push(char) 
+    for (i in 0 until s.length) {
+      if (stack.isNotEmpty() && stack.peek() == s[i]) stack.pop()
+      else stack.push(s[i])
     }
     
-    val output = StringBuilder()
+    val sb = StringBuilder()
     
-    while (stack.isNotEmpty()) {
-      output.append(stack.pop())
+    while(stack.isNotEmpty()) {
+      sb.append(stack.pop())
     }
     
-    return output.toString().reversed()
+    return sb.toString().reversed()
   }
 }
