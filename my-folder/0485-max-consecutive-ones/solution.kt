@@ -1,18 +1,23 @@
 class Solution {
     fun findMaxConsecutiveOnes(nums: IntArray): Int {
-      var max = 0
-      var counter = 0
+      var consecutiveOnesCount = 0
+      var l = 0
       
-      for (i in 0 until nums.size) {
-        if (nums[i] == 1) {
-          counter++
-
-          max = Math.max(max, counter)
-        } else {
-          counter  = 0
+//       [1,1,0,1,1,1]
+//        0 1 2 3 4 5
+//        l
+//            r
+//        consecutiveOnesCount = 2
+      
+      for (r in 0 until nums.size) {
+        if (nums[r] == 0) {
+          while (l <= r)
+            ++l
         }
+        
+        consecutiveOnesCount = Math.max(consecutiveOnesCount, r - l + 1)
       }
       
-      return max
+      return consecutiveOnesCount
     }
 }
