@@ -9,27 +9,25 @@
  * }
  */
 class Solution {
-fun rightSideView(root: TreeNode?): List<Int> {
-    val output = ArrayList<Int>()
-    val queue = LinkedList<TreeNode>()
-
-    return if (root == null) output
-    else {
-        queue.offer(root)
-
-        while (queue.isNotEmpty()) {
-            val queueSize = queue.size-1
-            for (i in 0..queueSize) {
-                val polled = queue.poll()
-
-                if (i == queueSize) output.add(polled.`val`)
-
-                polled.left?.let { queue.add(it) }
-                polled.right?.let { queue.add(it) }
-            }
+    fun rightSideView(root: TreeNode?): List<Int> {
+        if (root == null) return emptyList()
+        
+        val list = ArrayList<Int>()
+        val q = LinkedList<TreeNode>()
+        q.offer(root)
+        
+        while(q.isNotEmpty()) {
+          val qSize = q.size
+          for (i in 0 until qSize) {
+            val polled = q.poll()
+                      
+            polled.left?.let { q.offer(it) }
+            polled.right?.let { q.offer(it) }
+            
+            if (i == qSize-1) { list.add(polled.`val`) }
+          }
         }
-
-        output
+        
+        return list
     }
-}
 }
