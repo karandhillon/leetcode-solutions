@@ -1,68 +1,51 @@
 class Solution {
-  fun nextPermutation(nums: IntArray): Unit {
-    var l = 0
-    var r = nums.size - 1
-    var flag = true
-    
-    while (r > l && flag) {
-      if (nums[r] > nums[r-1]) {
-        flag = false
-        --r
-      } else {
-       --r 
+    fun nextPermutation(nums: IntArray): Unit {
+      var l = 0
+      var biggest = false
+      for (i in nums.size-1 downTo 1) {
+        if (nums[i-1] < nums[i]) {
+          l = i-1
+          break
+        }
+        
+        if (i == 1) { biggest = true }
       }
-    }
-    
-    println("Index of first break: $r")
-    
-    if (flag) {
-      l = 0
-      r = nums.size - 1
+      
+      var justMax = Int.MAX_VALUE
+      var r = nums.size-1
+      for (i in l+1 until nums.size) {
+        if (
+          nums[i] > nums[l] &&
+          nums[i] <= justMax
+        ) {
+          justMax = nums[i]
+          r = i
+        }
+      }
+      
+      if (l == 0 && biggest) {
+        while (l < r) {
+          swap(nums, l, r)
+          ++l
+          --r
+        }     
+        return
+      }
+      
+      swap(nums, l, r)
+      l = l+1
+      r = nums.size-1
       
       while (l <= r) {
-        val temp = nums[l]
-        nums[l] = nums[r]
-        nums[r] = temp
-      
+        swap(nums, l, r)
         ++l
         --r
       }
-      
-      return
     }
     
-    val justGreatestIndex = findIndexOfJustGreatest(nums, nums[r], r+1)
-    
-    println("Index of just greatest: $justGreatestIndex")
-    
-    val temp = nums[justGreatestIndex]
-    nums[justGreatestIndex] = nums[r]
-    nums[r] = temp
-    
-    l = r + 1
-    r = nums.size - 1
-    
-    while (l <= r) {
-      val temp = nums[l]
-      nums[l] = nums[r]
-      nums[r] = temp
-      
-      ++l
-      --r
+    fun swap(nums: IntArray, i: Int, j: Int) {
+      val cache = nums[i]
+      nums[i] = nums[j]
+      nums[j] = cache
     }
-  }
-  
-  fun findIndexOfJustGreatest(nums: IntArray, target: Int, startIndex: Int): Int {
-    var output = 101
-    var result = 0
-    
-    for (i in startIndex until nums.size) {
-      if (nums[i] > target && nums[i] <= output) {
-        output = nums[i]
-        result = i
-      }
-    }
-    
-    return result
-  }
 }
