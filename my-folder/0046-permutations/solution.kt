@@ -1,40 +1,36 @@
 class Solution {
     fun permute(nums: IntArray): List<List<Int>> {
-        val result = ArrayList<ArrayList<Int>>()
-        
-        backtrack(result, nums, 0)
-        
-        return result
+      val output = ArrayList<List<Int>>()
+      
+      backtrack(nums, 0, output)
+      
+      return output
     }
     
     fun backtrack(
-        result: ArrayList<ArrayList<Int>>,
-        nums: IntArray,
-        start: Int
+      nums: IntArray,
+      s: Int,
+      output: ArrayList<List<Int>>
     ) {
-        if (start == nums.size-1) {
-            result.add(toArrayList(nums))
-        } else {
-            for (i in start until nums.size) {
-                swap(nums, i, start)
-                backtrack(result, nums, start + 1)
-                swap(nums, i, start)
-            }
-        }
+      if (s == nums.size) {
+        output.add(nums.toList())
+        return
+      }
+      
+      for (i in s until nums.size) {
+        swap(nums, i, s)
+        backtrack(nums, s+1, output)
+        swap(nums, i, s)
+      }
     }
     
-    fun toArrayList(nums: IntArray) : ArrayList<Int> {
-        val output = ArrayList<Int>()
-        
-        nums.forEach { output.add(it) }
-        
-        return output
-    }
-    
-    fun swap(nums: IntArray, i: Int, j: Int) {
-        val temp = nums[i]
-        nums[i] = nums[j]
-        nums[j] = temp
+    fun swap(
+      nums: IntArray,
+      first: Int,
+      second: Int
+    ) {
+      val cache = nums[first]
+      nums[first] = nums[second]
+      nums[second] = cache
     }
 }
-
