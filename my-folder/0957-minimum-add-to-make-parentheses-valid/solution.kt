@@ -1,16 +1,15 @@
 class Solution {
     fun minAddToMakeValid(s: String): Int {
-      var moves = 0
-      val stack = Stack<Char>()
+      var counter = 0
+      var open = 0
       
       for (i in 0 until s.length) {
-        if (s[i] == '(') stack.push('(')
-        else {
-          if (stack.isEmpty()) ++moves
-          else stack.pop()
-        }
+        if (s[i] == '(') ++open
+        if (s[i] == ')')
+          if (open > 0) --open
+          else ++counter
       }
       
-      return moves + stack.size
+      return counter + open
     }
 }
