@@ -1,6 +1,9 @@
 class Solution {
-  var hasCharbeenRemoved = false
+  var isCharDeleted = false
+  
     fun validPalindrome(s: String): Boolean {
+      if (s.isEmpty()) return true
+      
       var l = 0
       var r = s.length - 1
       
@@ -9,17 +12,12 @@ class Solution {
           ++l
           --r
         } else {
-          if (!hasCharbeenRemoved) {
-            hasCharbeenRemoved = true
-            
-            val left = validPalindrome(s.substring(l, r))
-            val right = validPalindrome(s.substring(l+1, r+1))
-            
-            return if (left || right) true else false
-          } else {
-            return false
+          if (isCharDeleted) return false
+          else {
+            isCharDeleted = true
+            return validPalindrome(s.substring(l, r)) || validPalindrome(s.substring(l+1, r+1))
           }
-        }
+        }      
       }
       
       return true
