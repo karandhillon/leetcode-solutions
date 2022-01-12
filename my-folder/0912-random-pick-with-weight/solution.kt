@@ -1,28 +1,28 @@
 class Solution(val w: IntArray) {
-  
-  var totalSum: Int = 0
-  lateinit var prefixSums: IntArray
+  var totalSum = 0
   
   init {
-    prefixSums = IntArray(w.size) { 0 }
-    
-    var prefixSum = 0
-    w.forEachIndexed { index, weight ->
-      prefixSum += weight
-      prefixSums[index] = prefixSum
-    }
-    
-    totalSum = prefixSum
+    w.forEach { totalSum += it }
   }
-
+  
     fun pickIndex(): Int {
-      val random = (Math.random() * totalSum).toInt()
+      var random = (Math.random() * totalSum).toInt()
       
-      prefixSums.forEachIndexed { index, ps ->
-        if (ps > random) return index
+      var prefixSum = 0
+      
+      w.forEachIndexed { index, it ->
+        prefixSum += it
+        
+        if (prefixSum > random) return index
       }
       
-      return 1
+      return 0
     }
+
 }
 
+/**
+ * Your Solution object will be instantiated and called as such:
+ * var obj = Solution(w)
+ * var param_1 = obj.pickIndex()
+ */
