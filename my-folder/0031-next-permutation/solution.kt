@@ -1,51 +1,50 @@
 class Solution {
     fun nextPermutation(nums: IntArray): Unit {
-      var l = 0
-      var biggest = false
+      if (nums.size == 1) return
+      
+      var l = -1
       for (i in nums.size-1 downTo 1) {
         if (nums[i-1] < nums[i]) {
           l = i-1
           break
         }
-        
-        if (i == 1) { biggest = true }
       }
       
-      var justMax = Int.MAX_VALUE
-      var r = nums.size-1
+      if (l == -1) {
+        reverse(nums, 0, nums.size-1)       
+        return
+      }
+      
+      var r = -1
+      var nextGreater = 101
       for (i in l+1 until nums.size) {
-        if (
-          nums[i] > nums[l] &&
-          nums[i] <= justMax
-        ) {
-          justMax = nums[i]
+        if (nums[i] > nums[l] && nums[i] <= nextGreater) {
+          nextGreater = nums[i]
           r = i
         }
       }
       
-      if (l == 0 && biggest) {
-        while (l < r) {
-          swap(nums, l, r)
-          ++l
-          --r
-        }     
-        return
-      }
-      
       swap(nums, l, r)
-      l = l+1
-      r = nums.size-1
+      reverse(nums, l+1, nums.size-1)
+    }
+  
+    fun reverse(nums: IntArray, s: Int, e: Int) {
+      var l = s
+      var r = e
       
-      while (l <= r) {
-        swap(nums, l, r)
+      while (l < r) {
+        val temp = nums[l]
+        nums[l] = nums[r]
+        nums[r] = temp
+        
         ++l
         --r
       }
     }
     
-    fun swap(nums: IntArray, i: Int, j: Int) {
-      val cache = nums[i]
-      nums[i] = nums[j]
-      nums[j] = cache
+    fun swap(nums: IntArray, l: Int, r: Int) {
+      val temp = nums[l]
+      nums[l] = nums[r]
+      nums[r] = temp
     }
 }
