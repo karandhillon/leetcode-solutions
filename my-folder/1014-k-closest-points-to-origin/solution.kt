@@ -1,27 +1,29 @@
 class Solution {
     fun kClosest(points: Array<IntArray>, k: Int): Array<IntArray> {
-      val comparator = object: Comparator<DoubleArray> {
-        override fun compare(o1: DoubleArray, o2: DoubleArray): Int {
-          return if (o1.first() < o2.first()) -1
-          else if (o1.first() > o2.first()) 1
+      var c = object: Comparator<Pair<Double, IntArray>> {
+        override fun compare(o1: Pair<Double, IntArray>, o2: Pair<Double, IntArray>): Int {
+          return if (o1.first > o2.first) -1
+          else if (o1.first < o2.first) 1
           else 0
         }
       }
-      val pq = PriorityQueue<DoubleArray>(comparator)
+      var pq = PriorityQueue<Pair<Double, IntArray>>(c)
       
-      for (i in 0 until points.size) {
-        val d = Math.sqrt(Math.pow(points[i].first().toDouble(), 2.0) + Math.pow(points[i].last().toDouble(), 2.0))
+      for (point in points) {
+        val ed = Math.sqrt(
+          Math.pow(point[0].toDouble(), 2.0) + 
+          Math.pow(point[1].toDouble(), 2.0)
+        )
+        pq.offer(Pair(ed, point))
         
-        pq.offer(doubleArrayOf(d, i.toDouble()))  
+        if (pq.size > k) pq.poll()
       }
       
-      val output = ArrayList<IntArray>()
-      
+      val output = Array<IntArray>(k) { intArrayOf() }
       for (i in 0 until k) {
-        val polledIndex = pq.poll().last().toInt()
-        output.add(points[polledIndex])
+        output[i] = pq.poll().second
       }
       
-      return output.toTypedArray()
+      return output
     }
 }
