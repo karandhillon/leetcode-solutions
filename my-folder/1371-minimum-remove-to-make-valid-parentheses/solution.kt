@@ -1,43 +1,40 @@
 class Solution {
     fun minRemoveToMakeValid(s: String): String {
-      var counter = 0
-      
-      var frontToEnd = StringBuilder()
-      s.toCharArray().forEach {
-        when (it) {
-          '(' -> {
-            counter++
-            frontToEnd.append(it)
-          }
-          ')' -> {
-            if (counter > 0) {
-              counter--
-              frontToEnd.append(it)
-            }
-          }
-          else -> frontToEnd.append(it)
+      var openCounter = 0
+      var sb = StringBuilder()
+
+      for (i in s.indices) {
+        if (s[i] == '(') {
+          sb.append(s[i])
+          ++openCounter
         }
+        else if (s[i] == ')') {
+          if (openCounter > 0) {
+            sb.append(s[i])
+            --openCounter
+          }
+        }
+        else sb.append(s[i])
       }
       
-      counter = 0
+      val input = sb.toString()
+      openCounter = 0
+      sb.setLength(0)
       
-      var endToFront = StringBuilder()
-      for (i in frontToEnd.length-1 downTo 0) {  
-        when (frontToEnd[i]) {
-          '(' -> {
-            if (counter > 0) {
-              counter--
-              endToFront.append(frontToEnd[i])
-            }
+      for (i in input.length-1 downTo 0) {
+        if (input[i] == ')') {
+          sb.append(input[i])
+          ++openCounter
+        }
+        else if (input[i] == '(') {
+          if (openCounter > 0) {
+            sb.append(input[i])
+            --openCounter
           }
-          ')' -> {
-            counter++
-            endToFront.append(frontToEnd[i])
-          }
-          else -> endToFront.append(frontToEnd[i])
-        }        
-      } 
+        }
+        else sb.append(input[i])
+      }
       
-      return endToFront.toString().reversed()
+      return sb.toString().reversed()
     }
-}  
+}
