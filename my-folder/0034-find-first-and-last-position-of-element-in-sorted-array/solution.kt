@@ -1,47 +1,39 @@
 class Solution {
     fun searchRange(nums: IntArray, target: Int): IntArray {
-      if (nums.size == 0) return intArrayOf(-1, -1)
-
-      return intArrayOf(findStartIndex(nums, target), findEndIndex(nums, target))
-    }
-    
-    fun findStartIndex(nums: IntArray, target: Int): Int {
+      val ans = intArrayOf(-1, -1)
+      
       var l = 0
-      var r = nums.size-1
+      var r = nums.size - 1
       
       while (l <= r) {
-        val m = l + (r-l)/2
+        val m = l + (r - l) / 2
         
         when {
-          nums[m] > target -> r = m-1
-          nums[m] < target -> l = m+1
+          nums[m] > target -> r = m - 1
+          nums[m] < target -> l = m + 1
           else -> {
-            if (nums.getOrElse(m-1) { Int.MIN_VALUE } == target) r = m-1
-            else return m
+            ans[0] = m
+            r = m - 1
           }
         }
       }
       
-      return -1
-    }
-    
-    fun findEndIndex(nums: IntArray, target: Int): Int {
-      var l = 0
-      var r = nums.size-1
+      l = 0
+      r = nums.size - 1
       
       while (l <= r) {
-        val m = l + (r-l)/2
+        val m = l + (r - l) / 2
         
         when {
-          nums[m] > target -> r = m-1
-          nums[m] < target -> l = m+1
+          nums[m] > target -> r = m - 1
+          nums[m] < target -> l = m + 1
           else -> {
-            if (nums.getOrElse(m+1) { Int.MIN_VALUE } == target) l = m+1
-            else return m
+            ans[1] = m
+            l = m + 1
           }
         }
       }
       
-      return -1
+      return ans
     }
 }
