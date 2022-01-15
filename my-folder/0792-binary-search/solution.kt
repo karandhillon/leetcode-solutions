@@ -1,23 +1,19 @@
 class Solution {
     fun search(nums: IntArray, target: Int): Int {
-      var output = -1
-      
-      var l = 0
-      var r = nums.size - 1
-      
-      while (l <= r) {
-        val middle = l + (r - l)/2
-        
-        if (nums[middle] == target) {
-          output = middle
-          l = r + 1
-        } else if (nums[middle] < target) {
-          l = middle + 1
-        } else {
-          r = middle - 1
+     var l = 0
+    var r = nums.size - 1
+
+    while (l <= r) { // worst case, there's only one element left in the range.
+        val m = l + (r - l) / 2
+
+        when {
+            nums[m] < target -> l = m + 1
+            target < nums[m] -> r = m - 1
+            else -> return m
         }
-      }
-      
-      return output
+    }
+
+    return -1
     }
 }
+
