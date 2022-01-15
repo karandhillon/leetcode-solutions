@@ -1,15 +1,18 @@
 class Solution {
     fun searchInsert(nums: IntArray, target: Int): Int {
-        return binarySearch(nums, 0, nums.size - 1, target)
-    }
-    
-    fun binarySearch(array: IntArray, left: Int, right: Int, target: Int): Int {
-        if (left >= right) {
-            return if (array[left] < target) left + 1 else left
-        }
+      var l = 0
+      var r = nums.size-1
+      
+      while (l <= r) {
+        val m = l + (r - l) / 2
         
-        return if (array[(left + right)/2] > target) binarySearch(array, left, (left + right)/2 - 1, target)
-        else if (array[(left + right)/2] < target) binarySearch(array, (left + right)/2 + 1, right, target)
-        else (left + right)/2
+        when {
+          nums[m] < target -> l = m + 1
+          target < nums[m] -> r = m - 1
+          else -> return m
+        }
+      }
+      
+      return l
     }
 }
