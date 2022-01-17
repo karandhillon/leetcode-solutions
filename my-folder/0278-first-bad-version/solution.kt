@@ -3,16 +3,16 @@
 
 class Solution: VersionControl() {
     override fun firstBadVersion(n: Int) : Int {
-        var left = 1
-        var right = n
+        var l = 1
+        var r = n
 
-        while (left < right) {
-            val mid = left + (right - left) / 2
-            
-            if (isBadVersion(mid)) right = mid
-            else left = mid + 1        
+        while (l <= r) {
+            val m = l + (r - l) / 2
+          
+            if (isBadVersion(m)) r = m - 1
+            else l = m + 1
         }
         
-        return left
+        return l
     }
 }
