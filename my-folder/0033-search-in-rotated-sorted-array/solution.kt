@@ -1,53 +1,43 @@
 class Solution {
     fun search(nums: IntArray, target: Int): Int {
-      if (nums.size == 1) {
-        return if (nums[0] == target) 0 else -1
-      }
-      
       var l = 0
       var r = nums.size - 1
       
       while (l < r) {
-        val m = l + (r - l ) /2
+        val m = l + (r-l)/2
         
         if (nums[m] > nums[r]) l = m + 1
         else r = m
       }
       
-      var s = r
-      
+      var s = l
       l = 0
-      r = nums.size-1
+      r = nums.size - 1
       
-      if (target <= nums[r]) {
-        l = s
-        r = nums.size - 1
+      val x = bs(nums, s, r, target)
+      val y = bs(nums, l, s-1, target)
+      
+      if (x != -1) return x
+      if (y != -1) return y
+      
+      return -1
+    }
+    
+    fun bs(nums: IntArray, start: Int, end: Int, target: Int): Int {
+      if (nums.isEmpty() || nums.size == 0) return -1
+      if (start < 0 || end > nums.size - 1) return -1
+      
+      var l = start
+      var r = end
+      
+      while (l <= r) {
+        val m = l + (r - l)/2
         
-        while (l <= r) {
-          val m = l + (r - l) / 2
-
-          if (nums[m] == target) return m
-          
-          if (nums[m] < target) l = m + 1
-          else r = m - 1
+        when {
+          nums[m] == target -> return m
+          nums[m] < target -> l = m + 1
+          target < nums[m] -> r = m - 1
         }
-        
-        return -1
-      }
-      else {
-        l = 0
-        r = s-1
-        
-        while (l <= r) {
-          val m = l + (r - l) / 2
-          
-          if (nums[m] == target) return m
-          
-          if (nums[m] < target) l = m + 1
-          else r = m - 1
-        }
-        
-        return -1
       }
       
       return -1
