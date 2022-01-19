@@ -1,40 +1,30 @@
 class Solution {
     fun minRemoveToMakeValid(s: String): String {
-      var openCounter = 0
-      var sb = StringBuilder()
-
-      for (i in s.indices) {
+      val set = HashSet<Int>()
+      var counter = 0
+      
+      for (i in 0 until s.length) {
+        if (s[i] == '(') ++counter
+        if (s[i] == ')') {
+          if (counter > 0) --counter 
+          else set.add(i)
+        }
+      }
+      
+      counter = 0
+      for (i in s.length-1 downTo 0) {
+        if (s[i] == ')') ++counter
         if (s[i] == '(') {
-          sb.append(s[i])
-          ++openCounter
+          if (counter > 0) --counter 
+          else set.add(i)
         }
-        else if (s[i] == ')') {
-          if (openCounter > 0) {
-            sb.append(s[i])
-            --openCounter
-          }
-        }
-        else sb.append(s[i])
       }
       
-      val input = sb.toString()
-      openCounter = 0
-      sb.setLength(0)
-      
-      for (i in input.length-1 downTo 0) {
-        if (input[i] == ')') {
-          sb.append(input[i])
-          ++openCounter
-        }
-        else if (input[i] == '(') {
-          if (openCounter > 0) {
-            sb.append(input[i])
-            --openCounter
-          }
-        }
-        else sb.append(input[i])
+      val sb = StringBuilder()
+      for (i in 0 until s.length) {
+        if (!set.contains(i)) sb.append(s[i])
       }
       
-      return sb.toString().reversed()
+      return sb.toString()
     }
 }
