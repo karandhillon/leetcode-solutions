@@ -9,15 +9,21 @@
  * }
  */
 class Solution {
-    var sum = 0
+  private var sum = 0
   
     fun rangeSumBST(root: TreeNode?, low: Int, high: Int): Int {
       if (root == null) return 0
       
-      if (low <= root.`val` && root.`val` <= high) sum += root.`val`
-      if (low <= root.`val`) rangeSumBST(root.left, low, high)
-      if (high >= root.`val`) rangeSumBST(root.right, low, high)
+      preOrderTraversal(root, low, high)
       
       return sum
+    }
+    
+    fun preOrderTraversal(node: TreeNode?, low: Int, high: Int) {
+      if (node == null) return
+
+      if (low <= node.`val` && node.`val` <= high) sum += node.`val`
+      if (low <= node.`val`) node.left?.let { preOrderTraversal(it, low, high) }
+      if (node.`val` <= high) node.right?.let { preOrderTraversal(it, low, high) }
     }
 }
