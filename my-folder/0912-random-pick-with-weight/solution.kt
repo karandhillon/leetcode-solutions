@@ -1,19 +1,22 @@
-class Solution(val w: IntArray) {
-  var totalSum = 0
+class Solution(w: IntArray) {
+  private var totalSum = 0
+  private val prefixSum = IntArray(w.size)
   
   init {
-    w.forEach { totalSum += it }
+    var pSum = 0
+    for (i in 0 until w.size) {
+      pSum += w[i]
+      prefixSum[i] = pSum
+    }
+    
+    totalSum = pSum
   }
   
     fun pickIndex(): Int {
-      var random = (Math.random() * totalSum).toInt()
+      val randomWeight = (Math.random() * totalSum).toInt()
       
-      var prefixSum = 0
-      
-      w.forEachIndexed { index, it ->
-        prefixSum += it
-        
-        if (prefixSum > random) return index
+      for (i in 0 until prefixSum.size) {
+        if (randomWeight < prefixSum[i]) return i
       }
       
       return 0
