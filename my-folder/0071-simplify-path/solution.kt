@@ -1,20 +1,36 @@
 class Solution {
     fun simplifyPath(path: String): String {
       val stack = Stack<String>()
-      val components = path.split("/")
+      val parts: List<String> = path.split('/')
       
-      for (directory in components) {
-        if (directory == "." || directory.isEmpty()) continue
-        else if (directory == "..") { if (stack.isNotEmpty()) stack.pop() }
-        else stack.push(directory)
+      for (part in parts) {
+        when (part) {
+          "." -> {}
+          "/" -> {}
+          ".." -> if (stack.isNotEmpty()) stack.pop()
+          else -> {
+            if (part.isNotEmpty()) {
+              println("pushing $part")
+              stack.push(part)
+            }            
+          }
+        }
       }
+      
+      val components = ArrayList<String>()
+      while (stack.isNotEmpty()) {
+        components.add(stack.pop())
+      }
+      
+      components.reverse()
+      println(components.size)
       
       val sb = StringBuilder()
-      for (directory in stack) {
+      components.forEach { component ->
         sb.append("/")
-        sb.append(directory)
+        sb.append(component)
       }
       
-      return if (sb.length > 0) sb.toString() else "/"
+      return if (components.size == 0) "/" else sb.toString()
     }
 }
