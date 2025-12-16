@@ -1,45 +1,34 @@
+/**
+ * Example:
+ * var ti = TreeNode(5)
+ * var v = ti.`val`
+ * Definition for a binary tree node.
+ * class TreeNode(var `val`: Int) {
+ *     var left: TreeNode? = null
+ *     var right: TreeNode? = null
+ * }
+ */
 class Solution {
     fun inorderTraversal(root: TreeNode?): List<Int> {
-        return dfs(root)
-    }
-
-    fun dfs(root: TreeNode?): List<Int> {
         val output = ArrayList<Int>()
-        
-        dfsHelper(root, output)
-            
-        return output
-    }
-    
-    fun dfsHelper(node: TreeNode?, output: ArrayList<Int>) {
-        if (node == null) return
-        else {
-            node.left?.let { dfsHelper(it, output) }
-            output.add(node.`val`)
-            node.right?.let { dfsHelper(it, output) }
-        }
-    }
-    
-    fun bfs(root: TreeNode?): List<Int> {
+
+        if (root == null) return output
+
+        var curr = root
         val stack = Stack<TreeNode>()
-        val output = ArrayList<Int>()
 
-        return if (root == null) output
-        else {
-            var current: TreeNode? = root
-
-            while (stack.isNotEmpty() || current != null) {
-                while (current != null) {
-                    stack.push(current)
-                    current = current.left
-                }
-
-                val popped = stack.pop()
-                output.add(popped.`val`)
-                current = popped.right
+        while (curr != null || stack.isNotEmpty()) {
+            while (curr != null) {
+                stack.push(curr)
+                
+                curr = curr.left
             }
 
-            output
+            curr = stack.pop()
+            output.add(curr.`val`)
+            curr = curr.right
         }
+
+        return output
     }
 }
