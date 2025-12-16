@@ -9,22 +9,32 @@
  * }
  */
 class Solution {
-fun postorderTraversal(root: TreeNode?): List<Int> {
-    val stack = Stack<TreeNode>()
-    val output = LinkedList<Int>()
+    fun postorderTraversal(root: TreeNode?): List<Int> {
+        val output = ArrayList<Int>()
 
-    return if (root == null) output
-    else {
-        stack.push(root)
-
-        while (stack.isNotEmpty()) {
-            val popped = stack.pop()
-            output.addFirst(popped.`val`)
-            popped.left?.let { stack.push(it) }
-            popped.right?.let { stack.push(it) }
+        if (root == null) {
+            return output
         }
 
-        output
+        val stackA: Stack<TreeNode> = Stack()
+        val stackB: Stack<TreeNode> = Stack()
+
+        stackA.push(root)
+
+        while (stackA.isNotEmpty()) {
+            val node = stackA.pop()
+
+            stackB.push(node)
+
+            node.left?.let { stackA.push(it) }
+            node.right?.let { stackA.push(it) }
+        }
+
+
+        while (stackB.isNotEmpty()) {
+            output.add(stackB.pop().`val`)
+        }
+
+        return output
     }
-}
 }
