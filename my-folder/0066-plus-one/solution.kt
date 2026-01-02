@@ -1,41 +1,31 @@
 class Solution {
     fun plusOne(digits: IntArray): IntArray {
-      val output = ArrayList<Int>()
-      var carry = 0
-      
-      for (i in digits.size - 1 downTo 0) {
-        if (i == digits.size - 1) {
-          val afterAdd = digits[i] + 1
-          
-          if (afterAdd/10 == 1) {
-            carry = 1
-            output.add(0, 0)
-          } else {
-            carry = 0
-            output.add(0, afterAdd)
-          }
-        }
-        else {
-          if (carry == 1) {
-            val afterAdd = digits[i] + 1
-            
-            if (afterAdd/10 == 1) {
-              carry = 1
-              output.add(0, 0)
+        if (digits.size == 1) {
+            digits[0] += 1
+
+            return if (digits[0] == 10) {
+                intArrayOf(1, 0)
             } else {
-              carry = 0
-              output.add(0, afterAdd)
+                digits
             }
-          } else {
-            output.add(0, digits[i])
-          }
         }
-      }
-      
-      if (carry == 1) {
-        output.add(0, 1)
-      }
-      
-      return output.toIntArray()
+
+        digits[digits.size - 1] += 1
+
+        for (i in digits.size - 1 downTo 0) {
+            if (digits[i] == 10) {
+                digits[i] = 0
+
+                if (i != 0) {
+                    digits[i - 1] += 1
+                }
+            }
+        }
+
+        if (digits[0] == 0) {
+            return intArrayOf(1) + digits
+        } else {
+            return digits
+        }
     }
 }
