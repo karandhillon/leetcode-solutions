@@ -1,18 +1,17 @@
 class Solution {
-fun removeDuplicates(nums: IntArray): Int {
-    var sortedArrayPointer = 0
-    var currentPointer = 0
+    fun removeDuplicates(nums: IntArray): Int {
+        val set = mutableSetOf<Int>()
 
-    while (currentPointer < nums.size) {
-        if (nums[sortedArrayPointer] == nums[currentPointer]) {
-            currentPointer++
-        } else {
-            sortedArrayPointer++
-            nums[sortedArrayPointer] = nums[currentPointer]
-            currentPointer++
+        for (i in 0..nums.size - 1) {
+            if (set.contains(nums[i])) {
+                nums[i] = 101
+            } else {
+                set.add(nums[i])
+            }
         }
-    }
 
-    return sortedArrayPointer + 1
-}
+        nums.sort()
+
+        return set.size
+    }
 }
