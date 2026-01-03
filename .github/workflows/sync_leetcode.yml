@@ -1,15 +1,23 @@
 name: Sync Leetcode
-
 on:
   workflow_dispatch:
   schedule:
     - cron: "0 8 * * 6"
-
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          fetch-depth: 0
+      
+      - name: Configure Git
+        run: |
+          git config user.name "karandhillon"
+          git config user.email "itsmekarandhillon@gmail.com"
+      
       - name: Sync
         uses: joshcai/leetcode-sync@v1.7
         with:
